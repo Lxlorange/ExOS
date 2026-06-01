@@ -16,6 +16,8 @@ pub fn exit(exit_code: i32) -> isize {
     sys_exit(exit_code) 
 }
 
+pub fn yield_() -> isize { sys_yield() }
+
 fn clear_bss() {
     unsafe extern "C" {
         fn start_bss();
