@@ -12,6 +12,7 @@ mod trap;
 mod loader;
 mod config;
 mod task;
+mod timer;
 
 global_asm!(include_str!("entry.asm"));
 global_asm!(include_str!("link_app.S"));
@@ -30,6 +31,8 @@ fn clear_bss() {
 pub fn rust_main() -> ! {
     clear_bss();
     println!("[kernel] Hello, world!");
+    trap::enable_timer_interrupt();
+    timer::set_next_trigger();
     trap::init();
     loader::load_apps();
     task::run_first_task();
