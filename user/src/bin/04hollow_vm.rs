@@ -6,7 +6,7 @@ extern crate user_lib;
 
 use user_lib::{exit, get_time, yield_};
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 fn main() -> i32 {
     println!("hello_vm: start");
     for i in 0..5 {
