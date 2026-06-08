@@ -8,6 +8,7 @@ SECTIONS
     skernel = .;
 
     stext = .;
+    strampoline = .;
     .text : {
         *(.text.entry)
         *(.text .text.*)
@@ -32,6 +33,7 @@ SECTIONS
     . = ALIGN(4K);
     edata = .;
     .bss : {
+        sbss_with_stack = .;
         *(.bss.stack)
         sbss = .;
         *(.bss .bss.*)
@@ -46,4 +48,3 @@ SECTIONS
         *(.eh_frame)
     }
 }
-
