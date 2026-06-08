@@ -1,6 +1,7 @@
 mod address;
 mod frame_allocator;
 mod heap_allocator;
+mod memory_set;
 mod page_table;
 
 pub use address::{
@@ -8,11 +9,11 @@ pub use address::{
     PPNRange, VPNRange,
 };
 pub use frame_allocator::{frame_alloc, FrameTracker};
-pub use page_table::{PageTable, PageTableEntry, PTEFlags};
+pub use memory_set::{remap_test, MapArea, MapPermission, MapType, MemorySet, KERNEL_SPACE};
+pub use page_table::{translated_byte_buffer, PageTable, PageTableEntry, PTEFlags};
 
 pub fn init() {
     heap_allocator::init_heap();
-    heap_allocator::heap_test();
     frame_allocator::init_frame_allocator();
-    frame_allocator::frame_allocator_test();
+    KERNEL_SPACE.exclusive_access().activate();
 }

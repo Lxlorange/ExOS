@@ -328,3 +328,39 @@ impl MapArea {
         }
     }
 }
+
+#[allow(unused)]
+pub fn remap_test() {
+    let kernel_space = KERNEL_SPACE.exclusive_access();
+    let mid_text: VirtAddr =
+        ((stext as *const () as usize + etext as *const () as usize) / 2).into();
+    let mid_rodata: VirtAddr =
+        ((srodata as *const () as usize + erodata as *const () as usize) / 2).into();
+    let mid_data: VirtAddr =
+        ((sdata as *const () as usize + edata as *const () as usize) / 2).into();
+    assert_eq!(
+        kernel_space
+            .page_table
+            .translate(mid_text.floor())
+            .unwrap()
+            .writable(),
+        false
+    );
+    assert_eq!(
+        kernel_space
+            .page_table
+            .translate(mid_rodata.floor())
+            .unwrap()
+            .writable(),
+        false
+    );
+    assert_eq!(
+        kernel_space
+            .page_table
+            .translate(mid_data.floor())
+            .unwrap()
+            .executable(),
+        false
+    );
+    println!("remap_test passed!");
+}
