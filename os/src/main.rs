@@ -12,6 +12,7 @@ use core::arch::global_asm;
 mod console;
 mod lang_items;
 mod sbi;
+mod sync;
 mod syscall;
 mod trap;
 mod loader;
