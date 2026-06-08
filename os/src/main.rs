@@ -1,5 +1,8 @@
 #![no_std]
 #![no_main]
+#![feature(alloc_error_handler)]
+
+extern crate alloc;
 
 use core::arch::global_asm;
 
@@ -11,6 +14,7 @@ mod syscall;
 mod trap;
 mod loader;
 mod config;
+mod mm;
 mod task;
 mod timer;
 
@@ -31,6 +35,7 @@ fn clear_bss() {
 pub fn rust_main() -> ! {
     clear_bss();
     println!("[kernel] Hello, world!");
+    mm::init();
     trap::enable_timer_interrupt();
     timer::set_next_trigger();
     trap::init();
