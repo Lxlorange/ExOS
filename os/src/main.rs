@@ -12,14 +12,14 @@ use core::arch::global_asm;
 mod console;
 mod lang_items;
 mod sbi;
-mod sync;
 mod syscall;
 mod trap;
 mod loader;
 mod config;
-mod mm;
 mod task;
 mod timer;
+mod sync;
+mod mm;
 
 global_asm!(include_str!("entry.asm"));
 global_asm!(include_str!("link_app.S"));
@@ -29,9 +29,13 @@ fn clear_bss() {
         fn sbss();
         fn ebss();
     }
-    let sbss_ptr = sbss as *const () as usize;
-    let ebss_ptr = ebss as *const () as usize;
-    (sbss_ptr..ebss_ptr).for_each(|a| unsafe { (a as *mut u8).write_volatile(0) });
+    unsafe {
+        core::slice::from_raw_parts_mut(
+            sbss as *const () as usize as *mut u8,
+            ebss as *const () as usize - sbss as *const () as usize,
+        )
+        .fill(0);
+    }
 }
 
 #[no_mangle]
@@ -39,10 +43,11 @@ pub fn rust_main() -> ! {
     clear_bss();
     println!("[kernel] Hello, world!");
     mm::init();
+    println!("[kernel] back to world!");
+    mm::remap_test();
+    trap::init();
     trap::enable_timer_interrupt();
     timer::set_next_trigger();
-    trap::init();
-    loader::load_apps();
     task::run_first_task();
     panic!("Unreachable in rust_main!");
 }
