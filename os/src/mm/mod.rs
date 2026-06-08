@@ -8,7 +8,7 @@ pub use address::{
     PPNRange, VPNRange,
 };
 pub use frame_allocator::{frame_alloc, FrameTracker};
-pub use page_table::{PageTableEntry, PTEFlags};
+pub use page_table::{PageTable, PageTableEntry, PTEFlags};
 
 pub fn init() {
     heap_allocator::init_heap();
