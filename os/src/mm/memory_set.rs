@@ -72,6 +72,10 @@ impl MemorySet {
         self.page_table.token()
     }
 
+    pub fn recycle_data_pages(&mut self) {
+        self.areas.clear();
+    }
+
     pub fn insert_framed_area(
         &mut self,
         start_va: VirtAddr,
