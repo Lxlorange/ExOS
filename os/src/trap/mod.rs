@@ -40,7 +40,7 @@ fn set_user_trap_entry() {
     }
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub fn trap_handler() -> ! {
     set_kernel_trap_entry();
     let cx = current_trap_cx();
@@ -84,7 +84,7 @@ pub fn trap_handler() -> ! {
     trap_return();
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub fn trap_return() -> ! {
     set_user_trap_entry();
     let trap_cx_ptr = TRAP_CONTEXT;
@@ -106,7 +106,7 @@ pub fn trap_return() -> ! {
     }
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub fn trap_from_kernel() -> ! {
     panic!("a trap from kernel!");
 }

@@ -15,7 +15,7 @@ const CR: u8 = 0x0d;
 const DL: u8 = 0x7f;
 const BS: u8 = 0x08;
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub fn main() -> i32 {
     println!("Rust user shell");
     let mut line: String = String::new();
