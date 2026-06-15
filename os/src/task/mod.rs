@@ -1,4 +1,5 @@
 mod context;
+mod pid;
 mod switch;
 mod task;
 
@@ -12,6 +13,7 @@ use switch::__switch;
 use task::{TaskControlBlock, TaskStatus};
 
 pub use context::TaskContext;
+pub use pid::{kernel_stack_position, pid_alloc, KernelStack, PidHandle};
 
 pub struct TaskManager {
     num_app: usize,
