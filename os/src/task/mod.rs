@@ -1,6 +1,7 @@
 mod context;
 mod manager;
 mod pid;
+mod processor;
 mod switch;
 mod task;
 
@@ -11,6 +12,9 @@ use crate::sync::UPSafeCell;
 use crate::trap::TrapContext;
 use lazy_static::*;
 pub use manager::{add_task, fetch_task};
+pub use processor::{
+    current_task, current_trap_cx, current_user_token, run_tasks, schedule, take_current_task,
+};
 use switch::__switch;
 pub use task::{TaskControlBlock, TaskStatus};
 
@@ -140,12 +144,4 @@ pub fn suspend_current_and_run_next() {
 pub fn exit_current_and_run_next() {
     mark_current_exited();
     run_next_task();
-}
-
-pub fn current_user_token() -> usize {
-    TASK_MANAGER.get_current_token()
-}
-
-pub fn current_trap_cx() -> &'static mut TrapContext {
-    TASK_MANAGER.get_current_trap_cx()
 }
