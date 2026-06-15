@@ -1,4 +1,5 @@
 mod context;
+mod manager;
 mod pid;
 mod switch;
 mod task;
@@ -9,8 +10,9 @@ use crate::loader::{get_app_data, get_num_app};
 use crate::sync::UPSafeCell;
 use crate::trap::TrapContext;
 use lazy_static::*;
+pub use manager::{add_task, fetch_task};
 use switch::__switch;
-use task::{TaskControlBlock, TaskStatus};
+pub use task::{TaskControlBlock, TaskStatus};
 
 pub use context::TaskContext;
 pub use pid::{kernel_stack_position, pid_alloc, KernelStack, PidHandle};
