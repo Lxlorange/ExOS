@@ -8,6 +8,7 @@ use crate::task::{
 
 use crate::loader::get_app_data_by_name;
 use crate::mm::{translated_refmut, translated_str};
+use crate::sbi::shutdown;
 use alloc::sync::Arc;
 
 pub fn sys_exit(exit_code: i32) -> ! {
@@ -77,4 +78,8 @@ pub fn sys_waitpid(pid: isize, exit_code_ptr: *mut i32) -> isize {
     } else {
         -2
     }
+}
+
+pub fn sys_shutdown() -> ! {
+    shutdown()
 }
